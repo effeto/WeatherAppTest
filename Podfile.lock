@@ -1,0 +1,24 @@
+PODS:
+  - Alamofire (5.6.2)
+  - lottie-ios (3.4.2)
+  - SnapKit (5.6.0)
+
+DEPENDENCIES:
+  - Alamofire
+  - lottie-ios
+  - SnapKit
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - lottie-ios
+    - SnapKit
+
+SPEC CHECKSUMS:
+  Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
+  lottie-ios: 6bbc53eef6957e4744a50321507015fba72d8ca6
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+
+PODFILE CHECKSUM: 30581975b6966dcba8019c8c174dbdc21a81a706
+
+COCOAPODS: 1.11.3

@@ -8,6 +8,7 @@
 import Foundation
 
 final class MapViewModel {
+    
     public var searchResult: [SearchModelElement] = []
     
     public func fetchSearchResults(city: String, completion: @escaping () -> Void) {
@@ -17,7 +18,5 @@ final class MapViewModel {
         } failure: { error in
             print(error)
         }
-
-        
     }
 }

@@ -8,7 +8,9 @@
 import UIKit
 import Alamofire
 
-class Networking {
+final class Networking {
+    
+    // MARK: - Variables
     
     static let shared = Networking()
     
@@ -17,9 +19,9 @@ class Networking {
     private let tenDaysForecast = "&days=10&aqi=no&alerts=no"
     private let searchLocation = "https://api.weatherapi.com/v1/search.json?key=24cb3248af8c4ad3b40102008222412&q="
     
-    //    &days=10&aqi=no&alerts=no
+    // MARK: - Internal
     
-    func fetchCurrentWeather(
+    public func fetchCurrentWeather(
         city: String,
         completion: @escaping (Weather) -> Void,
         failure: @escaping (String) -> Void
@@ -31,8 +33,7 @@ class Networking {
             url,
             method: .get,
             encoding: JSONEncoding.default
-        )
-        .validate().responseString(encoding: String.Encoding.utf8) { (response) in
+        ).validate().responseString(encoding: String.Encoding.utf8) { (response) in
             guard let data = response.data else {
                 failure("No data")
                 return
@@ -70,11 +71,15 @@ class Networking {
         }
     }
     
-    func fetchHourForecast(city: String, completion: @escaping (_ hoursForecast: [Hour]) -> (), failure: @escaping (String) -> ()) {
+    public func fetchHourForecast(city: String,
+                                  completion: @escaping (_ hoursForecast: [Hour]) -> (),
+                                  failure: @escaping (String) -> ()) {
         let url = "\(self.baseURLCurrentWeather)\(self.apiKey)&q=\(city)&days=10&aqi=no&alerts=no"
         print("### Request URL: \(url)")
         
-        AF.request(url, method: .get, encoding: JSONEncoding.default).validate().responseString(encoding: String.Encoding.utf8){ (response) in
+        AF.request(url,
+                   method: .get,
+                   encoding: JSONEncoding.default).validate().responseString(encoding: String.Encoding.utf8){ (response) in
             
             guard let _ = response.response else {
                 failure("No response")
@@ -86,7 +91,11 @@ class Networking {
                 return
             }
             
-            let decoded: HourlyWeatherModel = try! JSONDecoder().decode(HourlyWeatherModel.self, from: data)
+            guard let decoded: HourlyWeatherModel = try? JSONDecoder().decode(HourlyWeatherModel.self, from: data)
+            else {
+                failure("No current data")
+                return
+            }
             
             guard decoded.forecast != nil else {
                 failure("No current data forecast")
@@ -108,14 +117,17 @@ class Networking {
         }
     }
     
-    func fetchTenDaysForecast(city: String,
-                              completion: @escaping (_ forecast: [Forecastday]) -> Void,
-                              failure: @escaping (String) -> Void
+    public func fetchTenDaysForecast(
+        city: String,
+        completion: @escaping (_ forecast: [Forecastday]) -> Void,
+        failure: @escaping (String) -> Void
     ) {
         let url = "\(self.baseURLCurrentWeather)\(self.apiKey)&q=\(city)&days=10&aqi=no&alerts=no"
         print("### Request URL: \(url)")
         
-        AF.request(url, method: .get, encoding: JSONEncoding.default).validate().responseString(encoding: String.Encoding.utf8){ (response) in
+        AF.request(url,
+                   method: .get,
+                   encoding: JSONEncoding.default).validate().responseString(encoding: String.Encoding.utf8){ (response) in
             
             guard let _ = response.response else {
                 failure("No response")
@@ -127,7 +139,11 @@ class Networking {
                 return
             }
             
-            let decoded: HourlyWeatherModel = try! JSONDecoder().decode(HourlyWeatherModel.self, from: data)
+            guard let decoded: HourlyWeatherModel = try? JSONDecoder().decode(HourlyWeatherModel.self, from: data)
+            else {
+                failure("No current data")
+                return
+            }
             
             guard decoded.forecast?.forecastday != nil else {
                 failure("No current data forecastday")
@@ -149,14 +165,20 @@ class Networking {
     ) {
         let url = "\(self.searchLocation)\(city)"
         print("### Request URL: \(url)")
-        AF.request(url, method: .get, encoding: JSONEncoding.default).validate().responseString(encoding: String.Encoding.utf8){ (response) in
+        AF.request(url,
+                   method: .get,
+                   encoding: JSONEncoding.default).validate().responseString(encoding: String.Encoding.utf8) { (response) in
             
             guard let data = response.data else {
                 failure("No data")
                 return
             }
             
-            let decoded: SearchModel = try! JSONDecoder().decode(SearchModel.self, from: data)
+            guard let decoded: SearchModel = try? JSONDecoder().decode(SearchModel.self, from: data)
+            else {
+                failure("No current data")
+                return
+            }
             
             guard decoded != nil else {
                 failure("No current data")

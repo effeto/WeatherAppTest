@@ -10,6 +10,8 @@ import SnapKit
 
 class ForecastTableViewCell: UITableViewCell {
     
+    // MARK: - Variables
+    
     static let id = "ForecastTableViewCell"
     
     let dateLabel: UILabel = {
@@ -32,6 +34,8 @@ class ForecastTableViewCell: UITableViewCell {
         return imageView
     }()
     
+    // MARK: - Init
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setDateLabel()
@@ -43,9 +47,7 @@ class ForecastTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
+    // MARK: - Private
     
     private func setDateLabel() {
         self.addSubview(dateLabel)
@@ -74,6 +76,8 @@ class ForecastTableViewCell: UITableViewCell {
         }
     }
     
+    // MARK: - Public
+    
     public func configureCell(date: String, temperature: String, icon: String) {
         self.temperatureLabel.text = temperature
         self.dateLabel.text = date
@@ -92,4 +96,9 @@ class ForecastTableViewCell: UITableViewCell {
         }
     }
     
+    // MARK: - Override
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+    }
 }

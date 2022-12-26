@@ -7,7 +7,9 @@
 
 import UIKit
 
-class SearchTableViewCell: UITableViewCell {
+final class SearchTableViewCell: UITableViewCell {
+    
+    // MARK: - Variables
     
     static let id = "SearchTableViewCell"
     
@@ -19,6 +21,8 @@ class SearchTableViewCell: UITableViewCell {
         return label
     }()
     
+    // MARK: - Init
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setTextLabel()
@@ -28,15 +32,19 @@ class SearchTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Public
+    
+    public func configureCell(city: String, country: String) {
+        self.resultLabel.text = "\(city), \(country)"
+    }
+    
+    // MARK: - Private
+    
     private func setTextLabel() {
         self.addSubview(resultLabel)
         
         resultLabel.snp.makeConstraints { make in
             make.top.bottom.trailing.leading.equalTo(self)
         }
-    }
-    
-    public func configureCell(city: String, country: String) {
-        self.resultLabel.text = "\(city), \(country)"
     }
 }

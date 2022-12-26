@@ -9,11 +9,15 @@ import UIKit
 import SnapKit
 import MapKit
 
-class MapView: UIView {
+final class MapView: UIView {
+    
+    // MARK: - Variables
     
     let searchBarView = SearchView()
     let mapView = MKMapView()
     weak var searchTableView: UITableView?
+    
+    // MARK: - Init
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,6 +30,8 @@ class MapView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Internal
     
     func setSearchBarView() {
         self.addSubview(searchBarView)
@@ -46,6 +52,8 @@ class MapView: UIView {
             make.width.equalTo(self)
         }
     }
+    
+    // MARK: - Private
     
     private func setSearchTableView() {
         let tableView = UITableView(frame: .zero, style: .plain)

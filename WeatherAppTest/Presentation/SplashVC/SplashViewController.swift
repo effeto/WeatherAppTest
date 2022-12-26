@@ -9,8 +9,12 @@ import UIKit
 
 class SplashViewController: UIViewController {
     
+    // MARK: - Variables
+    
     var coordinator: MainCoordinator?
     private let mainView = SplashView()
+    
+    // MARK: - View Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,9 +27,13 @@ class SplashViewController: UIViewController {
         goMainVC()
     }
     
+    // MARK: - Override
+    
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         setView()
     }
+    
+    // MARK: - Private
     
     private func setView() {
         mainView.frame = view.frame

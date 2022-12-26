@@ -8,7 +8,9 @@
 import UIKit
 import SnapKit
 
-class HourlyForecastCollectionViewCell: UICollectionViewCell {
+final class HourlyForecastCollectionViewCell: UICollectionViewCell {
+    
+    // MARK: - Variables
     
     static let id = "HourlyForecastCollectionViewCell"
     
@@ -33,6 +35,8 @@ class HourlyForecastCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    // MARK: - Init
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = AppHelper.lightBlue
@@ -48,6 +52,8 @@ class HourlyForecastCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Private
     
     private func setTimeLabel() {
         self.addSubview(timeLabel)
@@ -75,6 +81,8 @@ class HourlyForecastCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    // MARK: - Public
+    
     public func configureHourlyForecastCell(time: String, weatherImage: String, temperature: String) {
         self.temperatureLabel.text = temperature
         self.timeLabel.text = time
@@ -93,5 +101,3 @@ class HourlyForecastCollectionViewCell: UICollectionViewCell {
         }
     }
 }
-
-

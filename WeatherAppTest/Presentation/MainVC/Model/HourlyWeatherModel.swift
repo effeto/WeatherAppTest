@@ -7,36 +7,25 @@
 
 import Foundation
 
-// This file was generated from JSON Schema using quicktype, do not modify it directly.
-// To parse the JSON, add this file to your project and do:
-//
-//   let hourlyWeatherModel = try? newJSONDecoder().decode(HourlyWeatherModel.self, from: jsonData)
-
-// This file was generated from JSON Schema using quicktype, do not modify it directly.
-// To parse the JSON, add this file to your project and do:
-//
-//   let hourlyWeatherModel = try? newJSONDecoder().decode(HourlyWeatherModel.self, from: jsonData)
-
-// This file was generated from JSON Schema using quicktype, do not modify it directly.
-// To parse the JSON, add this file to your project and do:
-//
-//   let hourlyWeatherModel = try? newJSONDecoder().decode(HourlyWeatherModel.self, from: jsonData)
-
-import Foundation
-
 // MARK: - HourlyWeatherModel
+
 struct HourlyWeatherModel: Decodable {
+    
     let location: Location?
     let current: Current?
     let forecast: Forecast?
 }
 // MARK: - Forecast
+
 struct Forecast: Codable {
+    
     let forecastday: [Forecastday]?
 }
 
 // MARK: - Forecastday
+
 struct Forecastday: Codable {
+    
     let date: String?
     let dateEpoch: Int?
     let day: Day?
@@ -69,18 +58,21 @@ struct Forecastday: Codable {
         } else {
             return self.date.orNotAvailable
         }
-
     }
 }
 
 // MARK: - Astro
+
 struct Astro: Codable {
+    
     let sunrise, sunset, moonrise, moonset: String?
     let moonPhase, moonIllumination: String?
 }
 
 // MARK: - Day
+
 struct Day: Codable {
+    
     let maxtemp_c, maxtempF, mintemp_c, mintempF: Double?
     let avgtempC, avgtempF, maxwindMph, maxwindKph: Double?
     let totalprecipMm, totalprecipIn: Double?
@@ -107,7 +99,9 @@ struct Day: Codable {
 }
 
 // MARK: - Hour
+
 struct Hour: Codable {
+    
     let timeEpoch: Int?
     let time: String?
     let temp_c, tempF: Double?

@@ -36,6 +36,8 @@
 		A5B2D9632958E9E5000A9EA5 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B2D9622958E9E4000A9EA5 /* SearchTableViewCell.swift */; };
 		A5EA04E02958F0B700C0D4C3 /* SearchModelElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EA04DF2958F0B700C0D4C3 /* SearchModelElement.swift */; };
 		A5EA04E32958F27B00C0D4C3 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EA04E22958F27B00C0D4C3 /* MapViewModel.swift */; };
+		A5EA04E529599AD800C0D4C3 /* SearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EA04E429599AD800C0D4C3 /* SearchDataSource.swift */; };
+		A5EA04E72959A07700C0D4C3 /* MainViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EA04E62959A07700C0D4C3 /* MainViewDataSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +73,8 @@
 		A5B2D9622958E9E4000A9EA5 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		A5EA04DF2958F0B700C0D4C3 /* SearchModelElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModelElement.swift; sourceTree = "<group>"; };
 		A5EA04E22958F27B00C0D4C3 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		A5EA04E429599AD800C0D4C3 /* SearchDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataSource.swift; sourceTree = "<group>"; };
+		A5EA04E62959A07700C0D4C3 /* MainViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewDataSource.swift; sourceTree = "<group>"; };
 		CCC415FDC2EC910498FCB4CE /* Pods_WeatherAppTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherAppTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -268,6 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				A5B2D95129586041000A9EA5 /* MainViewModel.swift */,
+				A5EA04E62959A07700C0D4C3 /* MainViewDataSource.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -329,6 +334,7 @@
 			isa = PBXGroup;
 			children = (
 				A5EA04E22958F27B00C0D4C3 /* MapViewModel.swift */,
+				A5EA04E429599AD800C0D4C3 /* SearchDataSource.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -455,9 +461,11 @@
 				A5B2D94129570F41000A9EA5 /* CurrentWeatherModel.swift in Sources */,
 				A5B2D9572958818D000A9EA5 /* ForecastTableViewCell.swift in Sources */,
 				A5EA04E32958F27B00C0D4C3 /* MapViewModel.swift in Sources */,
+				A5EA04E72959A07700C0D4C3 /* MainViewDataSource.swift in Sources */,
 				A5B2D95529586DE9000A9EA5 /* Weather.swift in Sources */,
 				A5B2D95D2958C82C000A9EA5 /* MapView.swift in Sources */,
 				A5B2D9632958E9E5000A9EA5 /* SearchTableViewCell.swift in Sources */,
+				A5EA04E529599AD800C0D4C3 /* SearchDataSource.swift in Sources */,
 				A5B2D938295707BE000A9EA5 /* MainView.swift in Sources */,
 				A5B2D9272955CB88000A9EA5 /* Coordinator.swift in Sources */,
 				A5B2D9602958C86B000A9EA5 /* SearchView.swift in Sources */,

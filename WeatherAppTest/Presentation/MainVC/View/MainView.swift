@@ -10,6 +10,8 @@ import SnapKit
 
 class MainView: UIView {
     
+    // MARK: - Variables
+    
     internal let screen = UIScreen.main.bounds
     let currentWeatherView = CurrentWeatherView()
     weak var hoursForecastCollectionView: UICollectionView?
@@ -23,9 +25,13 @@ class MainView: UIView {
     
     var changeLocationButtonAction:(() -> Void)?
     
+    // MARK: - Init
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         self.backgroundColor = .white
+        
         setCurrentWeatherView()
         setHoursForecastCollectionView()
         setTenDayForecastTableView()
@@ -36,8 +42,11 @@ class MainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Private
+    
     private func setCurrentWeatherView() {
         self.addSubview(currentWeatherView)
+        
         if screen.width > 430 {
             currentWeatherView.snp.makeConstraints { make in
                 make.top.leading.equalTo(self)
@@ -64,7 +73,11 @@ class MainView: UIView {
         collection.isScrollEnabled = true
         collection.backgroundColor = .clear
         collection.showsHorizontalScrollIndicator = false
-        collection.register(HourlyForecastCollectionViewCell.self, forCellWithReuseIdentifier: HourlyForecastCollectionViewCell.id)
+        collection.register(
+            HourlyForecastCollectionViewCell.self,
+            forCellWithReuseIdentifier: HourlyForecastCollectionViewCell.id
+        )
+        
         self.addSubview(collection)
         
         collection.snp.makeConstraints { make in
@@ -72,12 +85,14 @@ class MainView: UIView {
             make.height.equalTo(100)
             make.width.equalTo(self.currentWeatherView)
         }
+        
         self.hoursForecastCollectionView = collection
     }
     
     private func setTenDayForecastTableView() {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(ForecastTableViewCell.self, forCellReuseIdentifier: ForecastTableViewCell.id)
+        
         self.addSubview(tableView)
         
         tableView.snp.makeConstraints { make in
@@ -91,6 +106,7 @@ class MainView: UIView {
     
     private func setChangeLocationButton() {
         self.addSubview(changeLocationButton)
+        
         changeLocationButton.addTarget(self, action: #selector(changeLocationButtonTaped), for: .touchUpInside)
         
         changeLocationButton.snp.makeConstraints { make in

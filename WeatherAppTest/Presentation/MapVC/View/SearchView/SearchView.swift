@@ -10,6 +10,8 @@ import SnapKit
 
 class SearchView: UIView {
     
+    // MARK: - Variables
+    
     let backButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "ic_back"), for: .normal)
@@ -31,6 +33,8 @@ class SearchView: UIView {
     var backButtonAction: (() -> Void)?
     var searchButtonAction: (() -> Void)?
     
+    // MARK: - Init
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = AppHelper.darkBlue
@@ -43,8 +47,11 @@ class SearchView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Private
+    
     private func setBackButton() {
         self.addSubview(backButton)
+        
         backButton.addTarget(self, action: #selector(backButtonTaped), for: .touchUpInside)
         
         backButton.snp.makeConstraints { make in
@@ -56,6 +63,7 @@ class SearchView: UIView {
     
     private func setSearchButton() {
         self.addSubview(searchButton)
+        
         searchButton.addTarget(self, action: #selector(searchButtonTaped), for: .touchUpInside)
         
         searchButton.snp.makeConstraints { make in
@@ -63,11 +71,9 @@ class SearchView: UIView {
             make.trailing.equalTo(self).offset(-10)
             make.height.width.equalTo(50)
         }
-        
     }
     
-    
-    func setSearchTextField() {
+    private func setSearchTextField() {
         self.addSubview(searchTextField)
         
         searchTextField.snp.makeConstraints { make in
@@ -78,12 +84,11 @@ class SearchView: UIView {
         }
     }
     
-    @objc func backButtonTaped() {
+    @objc private func backButtonTaped() {
         backButtonAction?()
     }
     
-    @objc func searchButtonTaped() {
+    @objc private func searchButtonTaped() {
         searchButtonAction?()
     }
-    
 }

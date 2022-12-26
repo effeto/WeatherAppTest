@@ -9,14 +9,19 @@ import UIKit
 
 class MainCoordinator: Coordinator {
     
+    // MARK: - Variables
+    
     var childCoordinators = [Coordinator]()
     var navigationController = UINavigationController()
     let window = UIWindow()
-
     
+    // MARK: - Init
+
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
+    
+    // MARK: - Internal
     
     func start() {
         let vc = SplashViewController()
@@ -28,7 +33,9 @@ class MainCoordinator: Coordinator {
     func openMainVC() {
         let vc = MainViewController()
         let vm = MainViewModel()
-        vc.viewModel = vm        
+        let dataSource = MainViewDataSource()
+        vc.viewModel = vm
+        vc.dataSource = dataSource
         vc.coordinator = self
         navigationController.navigationBar.isHidden = true
         navigationController.interactivePopGestureRecognizer?.isEnabled = false
@@ -38,8 +45,10 @@ class MainCoordinator: Coordinator {
     func openMapVC(delegate: MapViewDelegate) {
         let vc = MapViewController()
         let vm = MapViewModel()
+        let dataSource = SearchDataSource()
         vc.coordinator = self
         vc.viewModel = vm
+        vc.searchDataSource = dataSource
         vc.mapViewDelegate = delegate
         navigationController.navigationBar.isHidden = true
         navigationController.interactivePopGestureRecognizer?.isEnabled = false

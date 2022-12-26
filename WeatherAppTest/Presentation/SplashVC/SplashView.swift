@@ -11,6 +11,8 @@ import SnapKit
 
 class SplashView: UIView {
     
+    // MARK: - Variables
+    
     let animationContainer: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
@@ -26,6 +28,8 @@ class SplashView: UIView {
         return view
     }()
     
+    // MARK: - Init
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
@@ -35,6 +39,8 @@ class SplashView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Internal
     
     func setAnimationContainer() {
         self.addSubview(animationContainer)

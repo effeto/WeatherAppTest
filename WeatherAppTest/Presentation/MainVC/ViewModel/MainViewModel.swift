@@ -24,6 +24,8 @@ struct LocationData {
 
 final class MainViewModel {
     
+    // MARK: - Variables
+    
     public var hoursForecast: [Hour] = []
     public var tenDaysForecast: [Forecastday] = []
     public let locationManager = CLLocationManager()
@@ -34,7 +36,7 @@ final class MainViewModel {
         }
     }
     
-    
+    // MARK: - Internal
     
     func fetchHoursForecast(location: String, completion: @escaping () -> Void) {
         Networking.shared.fetchHourForecast(city: location) {
@@ -69,6 +71,4 @@ final class MainViewModel {
         let dateString = df.string(from: date)
         return Int(dateString) ?? 0
     }
-    
-    
 }

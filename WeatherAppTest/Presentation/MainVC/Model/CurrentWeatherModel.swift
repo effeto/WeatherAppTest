@@ -7,14 +7,18 @@
 import Foundation
 
 // MARK: - CurrentWeather
+
 struct CurrentWeather: Codable {
+    
     let location: Location?
     let current: Current?
     let forecast: Forecast?
 }
 
 // MARK: - Current
+
 struct Current: Codable {
+    
     let lastUpdatedEpoch: Int?
     let lastUpdated: String?
     let temp_c, temp_f: Double?
@@ -33,17 +37,20 @@ struct Current: Codable {
 }
 
 // MARK: - Condition
+
 struct Condition: Codable {
+    
     let text, icon: String?
     let code: Int?
 }
 
 // MARK: - Location
+
 struct Location: Codable {
+    
     let name, region, country: String?
     let lat, lon: Double?
     let tzID: String?
     let localtimeEpoch: Int?
     let localtime: String?
 }
-

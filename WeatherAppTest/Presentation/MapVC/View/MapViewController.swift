@@ -9,47 +9,61 @@ import UIKit
 import MapKit
 import CoreLocation
 
+protocol MapViewDelegate: AnyObject {
+    
+    func pushLocationBack(location: String, latitude: Double, longitude: Double)
+}
 
 class MapViewController: UIViewController,
                          MKMapViewDelegate,
                          CLLocationManagerDelegate,
                          UIGestureRecognizerDelegate,
                          UITextFieldDelegate,
-                         UITableViewDelegate,
-                         UITableViewDataSource {
+                         SearchDataSourceDelegate
+{
+    
+    // MARK: - Variables
     
     var coordinator: MainCoordinator?
     private let mainView = MapView()
     var mapViewDelegate: MapViewDelegate?
+    var searchDataSource: SearchDataSource?
     var viewModel: MapViewModel?
     let locationManager = CLLocationManager()
     let location = ""
     
+    // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.setView()
-        setMapviewLongPress()
+        self.setDelegates()
     }
+    
+    // MARK: - Private
     
     private func setView() {
         self.view.addSubview(mainView)
-        self.mainView.mapView.delegate = self
-        self.locationManager.delegate = self
-        self.mainView.searchBarView.searchTextField.delegate = self
-        self.mainView.searchTableView?.delegate = self
-        self.mainView.searchTableView?.dataSource = self
         self.mainView.snp.makeConstraints { make in
             make.edges.equalTo(self.view)
         }
+        
         self.mainView.searchBarView.backButtonAction = backButtonAction
         self.mainView.searchBarView.searchButtonAction = searchButtonAction
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-        self.locationManager.startUpdatingLocation()
-        self.mainView.searchBarView.searchTextField.addTarget(self, action: #selector(textFieldDidChange(_:)),
-                                                     for: .editingChanged)
-        if let coor = self.mainView.mapView.userLocation.location?.coordinate{
-            self.mainView.mapView.setCenter(coor, animated: true)
-        }
+        self.mainView.searchBarView.searchTextField.addTarget(self,
+                                                              action: #selector(textFieldDidChange(_:)),
+                                                              for: .editingChanged)
+        self.setMapviewLongPress()
+    }
+    
+    private func setDelegates() {
+        self.mainView.mapView.delegate = self
+        self.locationManager.delegate = self
+        self.searchDataSource?.delegate = self
+        self.mainView.searchBarView.searchTextField.delegate = self
+        self.mainView.searchTableView?.delegate = searchDataSource
+        self.mainView.searchTableView?.dataSource = searchDataSource
     }
     
     private func backButtonAction() {
@@ -60,14 +74,22 @@ class MapViewController: UIViewController,
         print("Search")
     }
     
-    func setMapviewLongPress(){
+    private func getLocation() {
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        self.locationManager.startUpdatingLocation()
+        if let coordinates = self.mainView.mapView.userLocation.location?.coordinate{
+            self.mainView.mapView.setCenter(coordinates, animated: true)
+        }
+    }
+    
+    private func setMapviewLongPress(){
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureReconizer:)))
         longPress.minimumPressDuration = 0.5
         longPress.delegate = self
         self.mainView.mapView.addGestureRecognizer(longPress)
     }
     
-    @objc func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
+    @objc private func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
         if gestureReconizer.state != UIGestureRecognizer.State.ended {
             let touchLocation = gestureReconizer.location(in: mainView.mapView)
             let locationCoordinate = mainView.mapView.convert(touchLocation,toCoordinateFrom: mainView.mapView)
@@ -82,6 +104,22 @@ class MapViewController: UIViewController,
             return
         }
     }
+    
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        if textField.text?.isEmpty == false {
+            self.mainView.searchTableView?.isHidden = false
+            guard let text = textField.text else {return}
+            viewModel?.fetchSearchResults(city: text, completion: {
+                guard let model = self.viewModel?.searchResult else { return }
+                self.searchDataSource?.configure(with: model)
+                self.mainView.searchTableView?.reloadData()
+            })
+        } else {
+            self.mainView.searchTableView?.isHidden = true
+        }
+    }
+    
+    // MARK: - LocationManager Delegates
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
@@ -98,44 +136,15 @@ class MapViewController: UIViewController,
         mainView.mapView.addAnnotation(annotation)
     }
     
+    // MARK: - SearchDataSource Delegate
     
-    @objc func textFieldDidChange(_ textField: UITextField) {
-        if textField.text?.isEmpty == false {
-            self.mainView.searchTableView?.isHidden = false
-            guard let text = textField.text else {return}
-            viewModel?.fetchSearchResults(city: text, completion: {
-                self.mainView.searchTableView?.reloadData()
-            })
-        } else {
-            self.mainView.searchTableView?.isHidden = true
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.searchResult.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = mainView.searchTableView?.dequeueReusableCell(withIdentifier: SearchTableViewCell.id,
-                                                                       for: indexPath
-        ) as? SearchTableViewCell else { return UITableViewCell() }
-        let city = self.viewModel?.searchResult[indexPath.row].name.orNotAvailable
-        let country = self.viewModel?.searchResult[indexPath.row].country.orNotAvailable
-        cell.configureCell(city: city.orNotAvailable, country: country.orNotAvailable)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let longitude = self.viewModel?.searchResult[indexPath.row].lon ?? 0.0
-        let latitude = self.viewModel?.searchResult[indexPath.row].lat ?? 0.0
-        let city = self.viewModel?.searchResult[indexPath.row].name.orNotAvailable
+    func didSelectRow(index: Int, model: SearchModelElement) {
+        let longitude = self.viewModel?.searchResult[index].lon ?? 0.0
+        let latitude = self.viewModel?.searchResult[index].lat ?? 0.0
+        let city = self.viewModel?.searchResult[index].name.orNotAvailable
         mapViewDelegate?.pushLocationBack(location: city.orNotAvailable,
                                           latitude: latitude,
                                           longitude: longitude)
         coordinator?.goBack()
     }
-}
-
-protocol MapViewDelegate: AnyObject {
-    func pushLocationBack(location: String, latitude: Double, longitude: Double)
 }

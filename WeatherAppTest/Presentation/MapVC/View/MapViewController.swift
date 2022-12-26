@@ -39,6 +39,7 @@ class MapViewController: UIViewController,
         
         self.setView()
         self.setDelegates()
+        self.getLocation()
     }
     
     // MARK: - Private
@@ -67,11 +68,11 @@ class MapViewController: UIViewController,
     }
     
     private func backButtonAction() {
-        coordinator?.goBack()
+        self.coordinator?.goBack()
     }
     
     private func searchButtonAction() {
-        print("Search")
+        self.locationManager.startUpdatingLocation()
     }
     
     private func getLocation() {
@@ -134,6 +135,7 @@ class MapViewController: UIViewController,
         annotation.coordinate = locValue
         annotation.title = "You are Here"
         mainView.mapView.addAnnotation(annotation)
+        manager.stopUpdatingLocation()
     }
     
     // MARK: - SearchDataSource Delegate

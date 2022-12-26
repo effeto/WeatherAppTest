@@ -128,8 +128,8 @@
 		A5B2D90D2955CB09000A9EA5 /* WeatherAppTest */ = {
 			isa = PBXGroup;
 			children = (
-				A5B2D93C29570CB7000A9EA5 /* Networking */,
 				A5B2D91C2955CB0A000A9EA5 /* Info.plist */,
+				A5B2D93C29570CB7000A9EA5 /* Networking */,
 				A5B2D9222955CB40000A9EA5 /* Application */,
 				A5B2D9232955CB49000A9EA5 /* Presentation */,
 				A5B2D9242955CB56000A9EA5 /* Recources */,
